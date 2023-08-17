@@ -1,7 +1,6 @@
 package com.example.spring_boot_project.web.model;
 
-import jakarta.persistence.*;
-
+import javax.persistence.*;
 import java.util.Objects;
 
 
