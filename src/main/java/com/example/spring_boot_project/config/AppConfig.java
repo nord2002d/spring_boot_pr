@@ -22,9 +22,11 @@ import java.util.Properties;
 @EnableTransactionManagement
 @ComponentScan(value = "com.example.spring_boot_project")
 public class AppConfig {
-
-   @Autowired
    private Environment env;
+
+   public AppConfig(Environment env) {
+      this.env = env;
+   }
 
    @Bean
    public DataSource getDataSource() {
@@ -35,7 +37,6 @@ public class AppConfig {
       dataSource.setPassword(env.getProperty("db.password"));
       return dataSource;
    }
-
    @Bean
    public LocalSessionFactoryBean getSessionFactory() {
       LocalSessionFactoryBean factoryBean = new LocalSessionFactoryBean();
@@ -50,7 +51,6 @@ public class AppConfig {
 
       return factoryBean;
    }
-
    @Bean
    public HibernateTransactionManager getTransactionManager() {
       HibernateTransactionManager transactionManager = new HibernateTransactionManager();

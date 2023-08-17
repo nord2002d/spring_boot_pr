@@ -1,19 +1,31 @@
 package com.example.spring_boot_project.web.model;
 
+
+import org.springframework.validation.annotation.Validated;
+
 import javax.persistence.*;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Positive;
 import java.util.Objects;
 
-
+@Validated
 @Entity
 @Table(name = "users")
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @NotBlank( message = "не может быть пустым, заполните поле")
     @Column(name = "name")
     private String name;
+    @NotBlank( message = "не может быть пустым, заполните поле")
     @Column(name = "sur_name")
     private String surName;
+    @Min(value = 1, message = "Минимальное значение 1, укажите корректное значение")
+    @Max(value = 130, message = "Максимальное значение 130, укажите корректное значение")
+    @Positive( message = "не может быть пустым, заполните поле")
     @Column(name = "age")
     private int age;
 

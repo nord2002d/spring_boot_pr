@@ -5,9 +5,10 @@ import com.example.spring_boot_project.web.model.User;
 import com.example.spring_boot_project.web.service.UserService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-
+@Validated
 @Controller
 public class UserController {
 
@@ -25,14 +26,17 @@ public class UserController {
         return "users";
     }
 
-    @GetMapping( "/formAdd")
+    @GetMapping("/formAdd")
     public String getFormAddUser(ModelMap model) {
         model.addAttribute("add", new User());
         return "add";
     }
 
-    @PostMapping()
-    public String addUser(@ModelAttribute User user) {
+    @PostMapping
+    public String addUser(@RequestParam("name") String name,
+                          @RequestParam("surName") String surName,
+                          @RequestParam("age") int age) {
+        User user = new User(name, surName, age);
         userService.add(user);
         return REDIRECT;
     }
@@ -50,11 +54,12 @@ public class UserController {
     }
 
     @PatchMapping()
-    public String updateUser(@ModelAttribute User user) throws UserNotFoundException {
-        User updateUser = userService.getUser(user.getId());
-        updateUser.setName(user.getName());
-        updateUser.setSurName(user.getSurName());
-        updateUser.setAge(user.getAge());
+    public String updateUser(@RequestParam("id") long id,
+                             @RequestParam("name") String name,
+                             @RequestParam("surName") String surName,
+                             @RequestParam("age") int age) {
+        User updateUser = new User(name, surName, age);
+        updateUser.setId(id);
         userService.add(updateUser);
         return REDIRECT;
     }
